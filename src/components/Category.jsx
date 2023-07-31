@@ -5,11 +5,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchQuestions } from '../redux/actions/quizActions';
 
-
 const Category = () => {
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -30,22 +27,29 @@ const Category = () => {
             dispatch(fetchQuestions(selectedCategory, selectedDifficulty));
         }
     };
+
     const handleCategoryChange = (value) => {
         setSelectedCategory(value);
-        handleMenuClick();
     };
 
     const handleDifficultyChange = (value) => {
         setSelectedDifficulty(value);
-        handleMenuClick();
     };
+
+    // State variables for selected category and difficulty
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+
+    useEffect(() => {
+        // Call handleMenuClick whenever either selectedCategory or selectedDifficulty changes
+        handleMenuClick();
+    }, [selectedCategory, selectedDifficulty]);
 
     return (
         <div className='cat-dropdown'>
             <Select
                 className='ant-select-selection span'
-
-                placeholder="Choose Category"
+                placeholder='Choose Category'
                 onChange={handleCategoryChange}
             >
                 {categories.map((category) => (
@@ -57,14 +61,15 @@ const Category = () => {
             <Select
                 className='ant-select-selection span'
                 style={{ marginTop: '0px' }}
-                placeholder="Choose difficulty level"
+                placeholder='Choose difficulty level'
                 onChange={handleDifficultyChange}
             >
-                <Select.Option value="easy">Easy</Select.Option>
-                <Select.Option value="medium">Medium</Select.Option>
-                <Select.Option value="hard">Hard</Select.Option>
+                <Select.Option value='easy'>Easy</Select.Option>
+                <Select.Option value='medium'>Medium</Select.Option>
+                <Select.Option value='hard'>Hard</Select.Option>
             </Select>
         </div>
     );
 };
+
 export default Category;
