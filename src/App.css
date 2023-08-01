@@ -51,6 +51,12 @@ body {
   margin-top: 20px;
   z-index: 0;
 }
+.warningmsg {
+  position: relative;
+  display: block;
+  top: -275px !important;
+  left: 35px !important;
+}
 .container {
   padding: 20px;
   position: relative;
@@ -62,7 +68,88 @@ body {
   width: 550px;
   height: 400px;
 }
+.center-content {
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  height: 90vh; /* Adjust this value if needed */
+  width: 100vw;
+  overflow: hidden;
+}
+.quiz-box {
+  padding: 20px 20px 10px 40px;
+  align-items: center !important;
+  text-align: center;
+  position: absoute;
+  border: 2px solid rgb(214, 204, 90);
+  border-radius: 12px;
+  width: 850px;
+  height: 500px;
+  box-shadow: 4px 4px 10px rgba(214, 204, 90, 0.5);
+}
+.collapse-true {
+  box-shadow: 4px 4px 8px rgba(123, 235, 49, 0.5);
+}
+.collapse-false {
+  box-shadow: 4px 4px 8px rgba(234, 63, 16, 0.497);
+}
+.quiz-result-box {
+  justify-content: center;
+  padding: 10px 20px 10px 40px;
+  display: flex;
+  align-items: center !important;
+  text-align: left;
+  position: relative;
+  border: 2px solid rgb(214, 204, 90);
+  border-radius: 12px;
+  width: 850px;
+  box-shadow: 4px 4px 10px rgba(214, 204, 90, 0.5);
 
+  /* height:500px; */
+}
+.center-container {
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  margin-top: 3%;
+  width: 100vw;
+}
+.q {
+  font-family: Poppins;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(135, 133, 132, 0.86);
+}
+.head-q {
+  text-align: center;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 24px;
+  color: rgba(135, 133, 132, 0.86);
+  margin-bottom: 25px;
+}
+.option {
+  font-family: Poppins;
+  font-size: 18px;
+  line-height: 38px;
+  color: rgba(135, 133, 132, 0.86);
+  margin-bottom: 20px;
+}
+.next-q {
+  position: static;
+  left: 0px;
+  top: 20px;
+  width: 180px;
+  height: 40px;
+  background-color: #b68a35;
+  font-family: Inter;
+  font-size: 22px !important;
+  font-weight: 300 !important;
+  color: #f0ffff !important;
+  border: #b68b3519;
+  padding: 0 0 30px 0;
+  box-shadow: 0px 2px #43300bb7;
+}
 .start {
   margin-top: 40px;
   width: 230px;
@@ -115,22 +202,4 @@ path.two {
   100% {
     fill: white;
   }
-}
-.questionpg {
-  width: 90vw;
-  margin-left: 3%;
-  margin-bottom: 5%;
-}
-
-.lastpage {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  text-align: left;
-  /* border: 1px solid brown; */
-  margin-left: 20%;
-  margin-bottom: 20%;
-  width: 70vw;
-  /* background-color: lightcyan; */
 }

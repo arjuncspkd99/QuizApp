@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import React from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Space } from 'antd';
 import '../App.css';
@@ -33,20 +33,20 @@ const menuProps = {
 };
 
 const Difficulty = () => {
-    return (
-        <div className='diff-drop-down' >
-            <Dropdown menu={menuProps}
-                trigger={['click']}
-            >
-                <Button style={{ width: '400px', height: '52px', backgroundColor: 'rgb(209, 209, 3)', color: '#ffffff', fontFamily: 'Poppins', fontSize: '24px', textAlign: 'left' }}>
-                    <Space size={160}>
-                        Difficulty Level
-                        <DownOutlined />
-                    </Space>
-                </Button>
-            </Dropdown>
-        </div>
-    )
+  return (
+    <div className='diff-drop-down' >
+    <Dropdown menu={menuProps}
+        trigger={['click']}
+    >
+        <Button style={{ width: '400px', height: '52px', backgroundColor: 'rgb(209, 209, 3)', color: '#ffffff', fontFamily: 'Poppins', fontSize: '24px', textAlign: 'left' }}>
+            <Space size={160}>
+                Difficulty Level
+                <DownOutlined />
+            </Space>
+        </Button>
+    </Dropdown>
+</div>
+  )
 }
 
 export default Difficulty

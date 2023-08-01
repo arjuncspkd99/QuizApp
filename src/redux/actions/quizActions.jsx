@@ -1,4 +1,23 @@
-import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE } from "../actionTypes"
+import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE, SET_CATEGORY, SET_DIFFICULTY } from "../actionTypes"
+
+
+
+// Define action creators
+export const setCategory = (category) => {
+  return {
+    type: SET_CATEGORY,
+    payload: category,
+  };
+};
+
+
+
+export const setDifficulty = (difficulty) => {
+  return {
+    type: SET_DIFFICULTY,
+    payload: difficulty,
+  };
+};
 
 export const updateScore = (score) => {
   return {
