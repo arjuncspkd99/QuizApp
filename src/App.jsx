@@ -1,19 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom'; // Corrected import statements
+// eslint-disable-next-line no-unused-vars
+import { BrowserRouter as Router, Route, Routes, Outlet, useLocation, Link } from 'react-router-dom'; // Corrected import statements
 import QuizApp from "./components/QuizApp";
 import Home from "./components/Home";
 
 const App = () => {
   return (
     <Router>
-      <Routes> {/* Use Routes component instead of createRoutesFromElements */}
-        <Route path="/" element={<Outlet />} errorElement={<Error to={"/"} />} >
-          <Route index element={<Home />} />
-          <Route path="quiz" element={<QuizApp />} /> {/* Use path instead of exact */}
-        </Route>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/quiz" element={<QuizWrapper />} />
       </Routes>
+
     </Router>
   );
+};
+
+const QuizWrapper = () => {
+  const location = useLocation();
+  const { state } = location;
+
+  if (!state || !state.name || !state.email) {
+    return <Link to="/" />;
+  }
+
+  const { name, email } = state;
+  return <QuizApp name={name} email={email} />;
 };
 
 export default App;

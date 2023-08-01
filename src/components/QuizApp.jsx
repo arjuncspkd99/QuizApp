@@ -9,12 +9,17 @@ import {
   resetQuiz,
 } from "../redux/actions/quizActions";
 import he from 'he';
+import '../App.css'
+import { Button, Collapse, Result } from "antd";
 
-const QuizApp = ({ category }) => {
+const QuizApp = (props) => {
+  const { name, email } = props;
   const dispatch = useDispatch();
   const questions = useSelector((state) => state.questions);
   const userAnswers = useSelector((state) => state.userAnswers);
   const score = useSelector((state) => state.score);
+  const selectedCategory = useSelector((state) => state.setCategory);
+  const selectedDifficulty = useSelector((state) => state.setDifficulty);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
@@ -56,136 +61,148 @@ const QuizApp = ({ category }) => {
     setCurrentQuestionIndex(0);
     setSelectedOption("");
     setShowScore(false);
+    dispatch(updateScore(0))
   };
 
   return (
-    <div style={{ marginTop: 150 }}>
+    <>
+      <div className='heading'>
+        <span>Welcome to &nbsp;<i style={{ color: 'white' }}>i</i>&nbsp; Quiz</span>
+      </div>
       {!showScore ? (
-        <div className="questionpg" style={{ textAlign: "left", border: "2px solid brown", padding: 20, color: "brown", backgroundColor: "lightcyan", borderRadius: "10px" }}>
-          <h1 style={{ textAlign: "center" }}>
-            Question {currentQuestionIndex + 1}
-          </h1>
-          {questions && questions[currentQuestionIndex] && (
-            <div>
-              <h2>{he.decode(questions[currentQuestionIndex].title)}</h2>
-              <h3>{he.decode(questions[currentQuestionIndex].body)}</h3>
-              <div>
-                {questions[currentQuestionIndex].options.map((option) => (
-                  <div
-                    key={he.decode(option)}
-                    style={{
-                      marginBottom: 20,
-                      fontSize: 17,
-                      justifyContent: "center",
-                      alignContent: "center",
-                    }}
-                  >
-                    <label>
-                      <input
-                        style={{ marginRight: 20 }}
-                        type="radio"
-                        name="option"
-                        value={option}
-                        checked={selectedOption === option}
-                        onChange={handleOptionChange}
-                      />
-                      {option}
-                    </label>
+        <section className="center-content">
+          <div className="quiz-box">
+            <div style={{ textAlign: "left" }}>
+              <div className="head-q">
+                Question {currentQuestionIndex + 1}
+                {/* <div style={{ textAlign: 'left', fontSize: '19px' }}>
+                  Category : {selectedCategory}
+                  Difficulty Level : {selectedDifficulty}
+                </div> */}
+              </div>
+              {questions && questions[currentQuestionIndex] && (
+                <div>
+                  <div className="q">{he.decode(questions[currentQuestionIndex].title)}</div>
+                  <h3>{he.decode(questions[currentQuestionIndex].body)}</h3>
+                  <div style={{ marginTop: '40px' }}>
+                    {questions[currentQuestionIndex].options.map((option) => (
+                      <div className="option"
+                        key={option}
+                      >
+                        <label>
+                          <input
+                            style={{ marginRight: 20 }}
+                            type="radio"
+                            name="option"
+                            value={option}
+                            checked={selectedOption === option}
+                            onChange={handleOptionChange}
+                          />
+                          {he.decode(option)}
+                        </label>
+                      </div>
+                    ))}
+                    <div className="warningmsg">
+                      {warningMessage && (
+                        <Result
+                          status="warning"
+                          title={warningMessage}
+                        />
+                      )}
+                    </div>
                   </div>
-                ))}
-                {warningMessage && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 18,
-                      fontWeight: 500,
-                      textAlign: "center",
-                    }}
-                  >
-                    {warningMessage}
-                  </p>
-                )}
+                </div>
+              )}
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  position: "relative",
+                  // top: '550px',
+                  // left: '700px',
+                }}
+              >
+                <Button className='next-q'
+                  onClick={handleNextQuestion}
+                >
+                  Next Question
+                </Button>
               </div>
             </div>
-          )}
-          <div
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              marginTop: 75,
-            }}
-          >
-            <button
-              style={{
-                height: 36,
-                width: 172,
-                fontSize: 17,
-                fontWeight: 700,
-              }}
-              onClick={handleNextQuestion}
-            >
-              Next Question
-            </button>
           </div>
-        </div>
+        </section>
       ) : (
-        <div className="lastpage">
-          <h3>Quiz Completed!</h3>
-          <p>
-            Your score: {score} / {questions.length}
-          </p>
-          <div>
-            <h4>Questions Answered Correctly:</h4>
-            {questions.map((question) => {
-              const userAnswer = userAnswers[question.id];
-              const isCorrect = userAnswer === question.correctAnswer;
-              return (
-                isCorrect && (
-                  <div key={question.id}>
-                    <p>{question.title}</p>
-                  </div>
-                )
-              );
-            })}
+        <section className="center-container">
+          <div className="quiz-result-box" >
+            <div >
+              <h3 style={{ fontFamily: 'Poppins', fontWeight: 400, fontSize: 28, textDecoration: 'underline', textAlign: 'center', color: 'rgba(234, 190, 90, 0.9)' }}>Quiz Completed!</h3>
+              <p style={{ display: 'flex', width: '100%', justifyContent: 'space-between', fontFamily: 'Poppins', fontWeight: 400, fontSize: 22, color: 'lightslategray' }}>
+                <span style={{ textAlign: 'left' }}>Name:&nbsp;&nbsp;<span style={{ color: 'black', fontSize: 20 }}>{name}</span> <br />Email:&nbsp;&nbsp;<span style={{ color: 'blue', fontSize: 20 }}>{email}</span></span>
+                <span style={{ textAlign: 'right' }}>Your score: <span style={{ color: 'black' }}>{score} / {questions.length}</span></span>
+              </p>
+              <div>
+                <h4 style={{ fontFamily: 'Poppins', color: 'green' }}>Questions Answered Correctly:</h4>
+                {questions.map((question) => {
+                  const userAnswer = userAnswers[question.id];
+                  const isCorrect = userAnswer === question.correctAnswer;
+                  return (
+                    isCorrect && (
+                      <div key={question.id}>
+                        <Collapse
+                          className="collapse-true"
+                          defaultActiveKey={[]}
+                          expandIconPosition='end'
+                        >
+                          <Collapse.Panel header={he.decode(question.title)} key='1'>
+                            <p>Selected Answer: {userAnswer}</p>
+                          </Collapse.Panel>
+                        </Collapse>
+                      </div>
+                    )
+                  );
+                })}
+              </div>
+              <div>
+                <h4 style={{ fontFamily: 'Poppins', color: 'Red' }}>Questions Answered Incorrectly:</h4>
+                {questions.map((question) => {
+                  const userAnswer = userAnswers[question.id];
+                  const isCorrect = userAnswer === question.correctAnswer;
+                  return (
+                    !isCorrect && (
+                      <div key={question.id}>
+                        <Collapse
+                          className="collapse-false"
+                          defaultActiveKey={[]}
+                          expandIconPosition='end'
+                        >
+                          <Collapse.Panel header={he.decode(question.title)} key='1'>
+                            <p>Selected Answer: {userAnswer}</p>
+                            <p>Correct Answer: {he.decode(question.correctAnswer)}</p>
+                          </Collapse.Panel>
+                        </Collapse>
+                      </div>
+                    )
+                  );
+                })}
+              </div>
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  marginTop: 25,
+                }}
+              >
+                <Button className='next-q'
+                  onClick={handleRetry}
+                >
+                  Retry Quiz
+                </Button>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4>Questions Answered Incorrectly:</h4>
-            {questions.map((question) => {
-              const userAnswer = userAnswers[question.id];
-              const isCorrect = userAnswer === question.correctAnswer;
-              return (
-                !isCorrect && (
-                  <div key={question.id}>
-                    <p>{question.title}</p>
-                    <p>Correct Answer: {question.correctAnswer}</p>
-                  </div>
-                )
-              );
-            })}
-          </div>
-          <div
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              marginTop: 75,
-            }}
-          >
-            <button
-              style={{
-                height: 36,
-                width: 172,
-                fontSize: 17,
-                fontWeight: 700,
-                marginBottom: "25px"
-              }}
-              onClick={handleRetry}
-            >
-              Retry Quiz
-            </button>
-          </div>
-        </div>
+        </section>
       )}
-    </div>
+    </>
   );
 };
 
