@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchQuestions,
   setAnswer,
   updateScore,
-  resetQuiz,
+  setSelectedCategory,
+  setSelectedDifficulty
 } from "../redux/actions/quizActions";
 import he from 'he';
 import '../App.css'
-import { Button, Collapse, Result } from "antd";
+import { Button, Collapse, Divider, Result } from "antd";
 
 const QuizApp = (props) => {
   const { name, email } = props;
@@ -18,8 +18,9 @@ const QuizApp = (props) => {
   const questions = useSelector((state) => state.questions);
   const userAnswers = useSelector((state) => state.userAnswers);
   const score = useSelector((state) => state.score);
-  const selectedCategory = useSelector((state) => state.setCategory);
-  const selectedDifficulty = useSelector((state) => state.setDifficulty);
+  const category = useSelector((state) => state.category);
+  const difficulty = useSelector((state) => state.difficulty);
+
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
@@ -61,7 +62,8 @@ const QuizApp = (props) => {
     setCurrentQuestionIndex(0);
     setSelectedOption("");
     setShowScore(false);
-    dispatch(updateScore(0))
+    dispatch(updateScore(0));
+    dispatch(fetchQuestions(setSelectedCategory, setSelectedDifficulty));
   };
 
   return (
@@ -75,16 +77,18 @@ const QuizApp = (props) => {
             <div style={{ textAlign: "left" }}>
               <div className="head-q">
                 Question {currentQuestionIndex + 1}
-                {/* <div style={{ textAlign: 'left', fontSize: '19px' }}>
-                  Category : {selectedCategory}
-                  Difficulty Level : {selectedDifficulty}
-                </div> */}
+                <Divider className="divider-style" />
+                <div style={{ textAlign: 'left', fontSize: '19px', display: 'flex', justifyContent: 'space-between' }}>
+                  <span >Category : <span style={{ color: "black" }}>{category}</span></span>
+                  <span>Difficulty Level : <span style={{ color: "black" }}>{difficulty}</span></span>
+                </div>
+                {/* <Divider className="divider-style" /> */}
               </div>
               {questions && questions[currentQuestionIndex] && (
                 <div>
                   <div className="q">{he.decode(questions[currentQuestionIndex].title)}</div>
-                  <h3>{he.decode(questions[currentQuestionIndex].body)}</h3>
-                  <div style={{ marginTop: '40px' }}>
+                  {/* <h3>{he.decode(questions[currentQuestionIndex].body)}</h3> */}
+                  <div style={{ marginTop: '30px' }}>
                     {questions[currentQuestionIndex].options.map((option) => (
                       <div className="option"
                         key={option}
@@ -118,8 +122,6 @@ const QuizApp = (props) => {
                   justifyContent: "center",
                   display: "flex",
                   position: "relative",
-                  // top: '550px',
-                  // left: '700px',
                 }}
               >
                 <Button className='next-q'

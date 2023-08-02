@@ -1,4 +1,4 @@
-import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE, SET_CATEGORY, SET_DIFFICULTY } from "../actionTypes";
+import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE,SET_CATEGORY, SET_DIFFICULTY } from "../actionTypes";
 
 const initialState = {
   questions: [],
@@ -36,14 +36,18 @@ const quizReducer = (state = initialState, action) => {
         ...initialState,
       };
     case SET_CATEGORY:
+      console.log(action.payload);
       return {
         ...state,
         selectedCategory: action.payload,
+        category: action.payload,
       };
     case SET_DIFFICULTY:
+      console.log(action.payload);
       return {
         ...state,
         selectedDifficulty: action.payload,
+        difficulty: action.payload,
       };
     default:
       return state;

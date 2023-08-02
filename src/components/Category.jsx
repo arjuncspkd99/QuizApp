@@ -1,19 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { message, Select } from 'antd';
 import '../App.css';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { fetchQuestions, setCategory, setDifficulty } from '../redux/actions/quizActions';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchQuestions, setSelectedCategory, setSelectedDifficulty } from "../redux/actions/quizActions";
 
 const Category = () => {
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-    // const [selectedCategory, setSelectedCategory] = useState(null);
-    // const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+    const selectedCategory = useSelector((state) => state.selectedCategory);
+    const selectedDifficulty = useSelector((state) => state.selectedDifficulty);
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         axios
@@ -27,23 +24,24 @@ const Category = () => {
             });
     }, []);
 
-    const handleMenuClick = () => {
-        if (selectedCategory && selectedDifficulty) {
-            message.info(`Selected category: ${selectedCategory}, Difficulty: ${selectedDifficulty}`);
-            dispatch(fetchQuestions(selectedCategory, selectedDifficulty));
-        }
-    };
     const handleCategoryChange = (value) => {
-        setSelectedCategory(value);
-        handleMenuClick();
+        dispatch(setSelectedCategory(value));
+        message.info(`Selected category: ${selectedCategory}`);
     };
 
+
     const handleDifficultyChange = (value) => {
-        setSelectedDifficulty(value);
-        handleMenuClick();
+        dispatch(setSelectedDifficulty(value));
+        message.info(`Selected Difficulty: ${selectedDifficulty}`);
     };
+
+    const handleMenuClick = () => {
+        dispatch(fetchQuestions(setSelectedCategory, setSelectedDifficulty));
+    };
+
     useEffect(() => {
-        // Call handleMenuClick whenever either selectedCategory or selectedDifficulty changes
+        console.log("Arjun")
+        message.info(`Selected category: ${selectedCategory}, Difficulty: ${selectedDifficulty}`);
         handleMenuClick();
     }, [selectedCategory, selectedDifficulty]);
 
@@ -51,9 +49,9 @@ const Category = () => {
         <div className='cat-dropdown'>
             <Select
                 className='ant-select-selection span'
-
                 placeholder="Choose Category"
                 onChange={handleCategoryChange}
+                value={selectedCategory}
             >
                 {categories.map((category) => (
                     <Select.Option key={category.id} value={category.id}>
@@ -66,6 +64,7 @@ const Category = () => {
                 style={{ marginTop: '0px' }}
                 placeholder="Choose difficulty level"
                 onChange={handleDifficultyChange}
+                value={selectedDifficulty}
             >
                 <Select.Option value="easy">Easy</Select.Option>
                 <Select.Option value="medium">Medium</Select.Option>
@@ -74,4 +73,5 @@ const Category = () => {
         </div>
     );
 };
+
 export default Category;

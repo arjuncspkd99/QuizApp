@@ -1,23 +1,16 @@
 import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE, SET_CATEGORY, SET_DIFFICULTY } from "../actionTypes"
 
 
-
 // Define action creators
-export const setCategory = (category) => {
-  return {
-    type: SET_CATEGORY,
-    payload: category,
-  };
-};
+export const setSelectedCategory = (category) => ({
+  type: SET_CATEGORY,
+  payload: category,
+});
 
-
-
-export const setDifficulty = (difficulty) => {
-  return {
-    type: SET_DIFFICULTY,
-    payload: difficulty,
-  };
-};
+export const setSelectedDifficulty = (difficulty) => ({
+  type: SET_DIFFICULTY,
+  payload: difficulty,
+});
 
 export const updateScore = (score) => {
   return {
@@ -25,11 +18,31 @@ export const updateScore = (score) => {
     payload: score,
   };
 };
+// const findCategoryIdByName = (categories, categoryName) => {
+//   const foundCategory = categories.find(
+//     (category) => category.name === categoryName
+//   );
+//   return foundCategory ? foundCategory.id : null;
+// };
 
-export const fetchQuestions = (selectedCategory, selectedDifficulty) => {
-  // console.log('category:', category);
-  return async (dispatch) => {
+export const fetchQuestions = () => {
+  return async (dispatch, getState) => {
+    const selectedCategory = getState().selectedCategory;
+    const selectedDifficulty = getState().selectedDifficulty;
+    // const state = getState();
+    // const selectedCategoryName = state.selectedCategory;
+    // const selectedDifficulty = state.selectedDifficulty;
+    // const categories = state.categories; // Assuming you have categories in your state
 
+    // const selectedCategoryId = findCategoryIdByName(
+    //   categories,
+    //   selectedCategoryName
+    // );
+
+    // if (!selectedCategoryId) {
+    //   console.error("Selected category not found.");
+    //   return;
+    // }
     try {
       const response = await fetch(
         `https://opentdb.com/api.php?amount=10&category=${selectedCategory}&difficulty=${selectedDifficulty}&type=multiple`
@@ -53,7 +66,6 @@ export const fetchQuestions = (selectedCategory, selectedDifficulty) => {
       console.error("Error fetching questions:", error);
     }
   };
-
 };
 
 export const setAnswer = (questionId, answer) => {
