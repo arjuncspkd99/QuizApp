@@ -1,22 +1,38 @@
-import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE,SET_CATEGORY, SET_DIFFICULTY } from "../actionTypes";
+import { FETCH_QUESTIONS, SET_ANSWER, RESET_QUIZ, UPDATE_SCORE,SET_CATEGORY, SET_DIFFICULTY, FETCH_CATEGORY,NAME,EMAIL } from "../actionTypes";
 
 const initialState = {
+  categories: [],
   questions: [],
   userAnswers: {},
   score: 0,
   selectedCategory: null,
   selectedDifficulty: null,
+  name:'',
+  email:''
 };
 
 const quizReducer = (state = initialState, action) => {
   switch (action.type) {
+    case NAME:
+      return {
+        ...state,
+        name: action.payload,
+      }
+      case EMAIL:
+        return {
+          ...state,
+          email: action.payload,
+        }
     case FETCH_QUESTIONS:
-      console.log(action.payload);
-      console.log("test")
       return {
         ...state,
         questions: action.payload,
       };
+    case FETCH_CATEGORY:
+      return {
+        ...state,
+        categories: action.payload,
+      }
 
     case SET_ANSWER:
       return {
@@ -36,14 +52,12 @@ const quizReducer = (state = initialState, action) => {
         ...initialState,
       };
     case SET_CATEGORY:
-      console.log(action.payload);
       return {
         ...state,
         selectedCategory: action.payload,
         category: action.payload,
       };
     case SET_DIFFICULTY:
-      console.log(action.payload);
       return {
         ...state,
         selectedDifficulty: action.payload,

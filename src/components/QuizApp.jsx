@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,21 +5,27 @@ import {
   setAnswer,
   updateScore,
   setSelectedCategory,
-  setSelectedDifficulty
+  setSelectedDifficulty,
+
 } from "../redux/actions/quizActions";
 import he from 'he';
 import '../App.css'
 import { Button, Collapse, Divider, Result } from "antd";
+import {  useNavigate } from "react-router-dom";
 
-const QuizApp = (props) => {
-  const { name, email } = props;
+const QuizApp = () => {
+  const navigate = useNavigate()
+  const name = useSelector((state) => state.name); 
+  const email = useSelector((state) => state.email); 
   const dispatch = useDispatch();
   const questions = useSelector((state) => state.questions);
   const userAnswers = useSelector((state) => state.userAnswers);
   const score = useSelector((state) => state.score);
-  const category = useSelector((state) => state.category);
+  const selectedCategory = useSelector((state) => state.selectedCategory);
+  // const categories = useSelector((state) => state.categories);
+  const selectedCategories = useSelector((state) => state.categories);
   const difficulty = useSelector((state) => state.difficulty);
-
+  
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
@@ -66,6 +71,12 @@ const QuizApp = (props) => {
     dispatch(fetchQuestions(setSelectedCategory, setSelectedDifficulty));
   };
 
+  const handleRetryNew = () => {
+    navigate('/')
+  };
+
+  const categoryName = selectedCategories.find((category) => category.id === selectedCategory)?.name;
+
   return (
     <>
       <div className='heading'>
@@ -78,11 +89,10 @@ const QuizApp = (props) => {
               <div className="head-q">
                 Question {currentQuestionIndex + 1}
                 <Divider className="divider-style" />
-                <div style={{ textAlign: 'left', fontSize: '19px', display: 'flex', justifyContent: 'space-between' }}>
-                  <span >Category : <span style={{ color: "black" }}>{category}</span></span>
-                  <span>Difficulty Level : <span style={{ color: "black" }}>{difficulty}</span></span>
+                <div style={{ textAlign: 'left', fontSize: '19px',display:'flex',justifyContent:'space-between' }}>
+                  <span >Category : <span style={{color:"black"}}>{categoryName}</span></span>
+                  <span>Difficulty Level : <span style={{color:"black"}}>{difficulty}</span></span>
                 </div>
-                {/* <Divider className="divider-style" /> */}
               </div>
               {questions && questions[currentQuestionIndex] && (
                 <div>
@@ -138,9 +148,9 @@ const QuizApp = (props) => {
           <div className="quiz-result-box" >
             <div >
               <h3 style={{ fontFamily: 'Poppins', fontWeight: 400, fontSize: 28, textDecoration: 'underline', textAlign: 'center', color: 'rgba(234, 190, 90, 0.9)' }}>Quiz Completed!</h3>
-              <p style={{ display: 'flex', width: '100%', justifyContent: 'space-between', fontFamily: 'Poppins', fontWeight: 400, fontSize: 22, color: 'lightslategray' }}>
-                <span style={{ textAlign: 'left' }}>Name:&nbsp;&nbsp;<span style={{ color: 'black', fontSize: 20 }}>{name}</span> <br />Email:&nbsp;&nbsp;<span style={{ color: 'blue', fontSize: 20 }}>{email}</span></span>
-                <span style={{ textAlign: 'right' }}>Your score: <span style={{ color: 'black' }}>{score} / {questions.length}</span></span>
+              <p style={{ display: 'flex', width: '100%', justifyContent:'space-between',fontFamily: 'Poppins', fontWeight: 400, fontSize: 22,color:'lightslategray' }}>
+                <span style={{ textAlign: 'left' }}>Name:&nbsp;&nbsp;<span style={{color:'black',fontSize:20}}>{name}</span> <br />Email:&nbsp;&nbsp;<span style={{color:'blue',fontSize:20}}>{email}</span></span>
+                <span style={{ textAlign: 'right' }}>Your score: <span style={{color:'black'}}>{score} / {questions.length}</span></span>
               </p>
               <div>
                 <h4 style={{ fontFamily: 'Poppins', color: 'green' }}>Questions Answered Correctly:</h4>
@@ -195,9 +205,16 @@ const QuizApp = (props) => {
                 }}
               >
                 <Button className='next-q'
+                  style={{marginRight:20}}
                   onClick={handleRetry}
                 >
                   Retry Quiz
+                </Button>
+                <Button className='next-q'
+                  style={{marginLeft:20}}
+                  onClick={handleRetryNew}
+                >
+                  Retake New Quiz
                 </Button>
               </div>
             </div>

@@ -4,3 +4,6 @@ export const RESET_QUIZ = "RESET_QUIZ";
 export const UPDATE_SCORE = "UPDATE_SCORE";
 export const SET_CATEGORY = "SET_CATEGORY";
 export const SET_DIFFICULTY = "SET_DIFFICULTY";
+export const FETCH_CATEGORY = "FETCH_CATEGORY";
+export const NAME = "NAME";
+export const EMAIL = "EMAIL";
