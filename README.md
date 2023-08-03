@@ -7,6 +7,10 @@ Welcome to the Quiz App! This is a simple quiz application built using React and
 ## Screenshots
 
 ![Screenshot 1](https://drive.google.com/uc?id=1YCkYtUTj4nuKsPh78_vt-ySj75omCSPa) <!-- Replace with the actual image URL -->
+![Screenshot 2](https://drive.google.com/uc?id=1vywy4OXLpjv9ZPnz8DVb2RKwSnvdef7G) <!-- Replace with the actual image URL -->
+![Screenshot 3](https://drive.google.com/uc?id=1AOnL-IxyrHrC8j4odQexxU8obo3znrWF) <!-- Replace with the actual image URL -->
+![Screenshot 4](https://drive.google.com/uc?id=1PQn5VxyYsr-0i1DPqlkhr-aA2SfXgnJ_) <!-- Replace with the actual image URL -->
+
 ## Features
 
 - Interactive quiz interface.
@@ -22,7 +26,6 @@ Welcome to the Quiz App! This is a simple quiz application built using React and
 - React Router: Declarative routing for React applications.
 - Axios: A promise-based HTTP client for making API requests.
 - CSS: Styling the app for an attractive user interface.
-- [Any other libraries or tools you've used]
 
 ## Getting Started
 
@@ -37,15 +40,11 @@ These instructions will help you set up a local copy of the project for developm
 ```markdown
 2. **Install dependencies**:
 
-   ```bash
    npm install
-   ```
 
 3. **Start the development server**:
 
-   ```bash
    npm start
-   ```
 
    This will launch the app in your default browser. The app will automatically reload if you make edits.
 
@@ -74,7 +73,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 For any inquiries or suggestions, please email us at arjuncspkd99@gmail.com.
 
----
 
-```
 
